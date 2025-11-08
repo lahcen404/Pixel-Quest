@@ -11,11 +11,11 @@
     <title>Pixel Quest</title>
 </head>
 
-<body>
+<body class="bg-[#1E293B]">
     <header>
 
 
-        <nav class="bg-white border-gray-200 dark:bg-gray-900 fixed top-0 w-full z-50">
+        <nav class="bg-white border-blue-600 border-2 rounded-4xl dark:bg-gray-900 fixed top-0 w-full z-50">
             <div class="max-w-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="./index.html" class="flex items-center space-x-3">
                     <img src="./imgs/logo-pixel-quest.png" class="h-10 " alt="Logo" />
@@ -78,18 +78,105 @@
                 <input type="text" placeholder="Search for games, genres, or platforms..." class="absolute top-28 left-9 w-47 h-5 bg-gray-700 border opacity-80 rounded-2xl border-blue-600 text-white 
              placeholder-gray-400 pl-4 pb-2 placeholder:text-[6px] sm:placeholder:text-[12px] md:placeholder:text-[14px] lg:placeholder:text-[16px]
              md:top-45 md:left-30 md:w-82 md:h-8 
-             lg:top-60 lg:left-35 lg:w-120 lg:h-12 focus:outline-none focus:ring-2 focus:ring-blue-500">
+             lg:top-60 lg:left-35 lg:w-120 lg:h-12  focus:ring-blue-500">
 
                 <a href="#">
                     <i class="absolute top-29 left-51 text-xs fas fa-search text-white 
-                md:top-47 md:left-105 md:text-lg 
-                lg:top-63 lg:left-144 lg:text-3xl"></i>
+                md:top-47 md:left-105 
+                lg:top-63 lg:left-144 lg:text-xl"></i>
                 </a>
             </div>
         </section>
 
+        <section class="platforms-section grid grid-cols-2 gap-3 m-3 
+                md:grid-cols-6 lg:grid-cols-7">
+
+    
+
+    <!-- wins btn -->
+    <div
+        class="windowsBtn flex justify-center items-center gap-2 p-2 text-white text-sm border-blue-500 bg-blue-900 border-2 w-full h-10 text-center rounded-3xl hover:bg-blue-600">
+        <img src="./imgs/icons8-windows-50.png" alt="Windows icon" class="w-5 h-5">
+        <a>Windows</a>
+    </div>
+
+   <!-- xbox btn -->
+    <!--  -->
+    <div
+        class="xboxBtn flex justify-center items-center gap-2 p-2 text-white border-blue-500 bg-green-500 text-sm border-2 w-full h-10 text-center rounded-3xl hover:bg-green-700">
+        <img src="./imgs/icons8-xbox-50.png" alt="Xbox icon" class="w-5 h-5">
+        <a>Xbox</a>
+    </div>
+
+    <!-- play station btn -->
+    <div
+        class="psBtn flex justify-center items-center gap-2 p-2 text-white border-blue-500 bg-blue-900 border-2 w-full h-10 text-center rounded-3xl hover:bg-blue-600
+                md:text-sm">
+        <img src="./imgs/icons8-playstation-50.png" alt="PlayStation icon" class="w-5 h-5">
+        <a>Play Station</a>
+    </div>
+
+    <!-- Nintendo btn -->
+    <div
+        class="nintendoBtn flex justify-center items-center gap-2 p-2 text-white border-blue-500 bg-blue-900 border-2 w-full h-10 text-center rounded-3xl hover:bg-blue-600
+                md:text-xs">
+        <img src="./imgs/icons8-nintendo-switch-50.png" alt="Nintendo icon" class="w-5 h-5">
+        <a>Nintendo Switch</a>
+    </div>
+
+<!-- genre btn -->
+    <div class="genreBtn flex justify-center items-center">
+        <button id="genreButton" data-dropdown-toggle="genreDropdown"
+            class="text-white bg-blue-900 hover:bg-blue-950 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+            Genre
+            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-width="2" d="m1 1 4 4 4-4" />
+            </svg>
+        </button>
+
+        <div id="genreDropdown"
+            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="genreButton">
+                <li><a href="#"
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Action</a>
+                </li>
+                <li><a href="#"
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Adventure</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- date btn -->
+    <div class="dateBtn flex justify-center items-center ">
+        <button id="dateButton" data-dropdown-toggle="dateDropdown"
+            class="text-white bg-blue-900 hover:bg-blue-950 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 text-center inline-flex items-center">
+            Date
+            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-width="2" d="m1 1 4 4 4-4" />
+            </svg>
+        </button>
+
+        <div id="dateDropdown"
+            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dateButton">
+                <li><a href="#"
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Newest</a>
+                </li>
+                <li><a href="#"
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Oldest</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
 
     </main>
+    <script src="script.js"></script>
 </body>
 
 </html>
