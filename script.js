@@ -9,6 +9,7 @@ async function fetchGames(){
         let data = await response.json()
          games = data.results;
          console.log(games)
+        displayCards();
     }catch (err){
         console.error(err)
     }
@@ -16,6 +17,50 @@ async function fetchGames(){
 
 // fetchGames();
 
+function displayCards(){
+    
+    games.forEach(game=>{
+        const card = document.createElement("div");
 
+        card.innerHTML = `<div class="card flex items-center justify-center  p-4">
+    <div class="w-full bg-gray-800 border-2 border-blue-600 rounded-xl overflow-hidden shadow-2xl ">
+
+        <div class="relative">
+            <img src="${game.background_image}" alt="" class="w-full object-cover">
+
+            <label for="favorit" class="absolute top-3 left-3 cursor-pointer p-2 bg-black bg-opacity-50 rounded-full transition duration-300 hover:bg-opacity-70">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white  " fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5c-1.933 0-3.57 1.258-4.312 3.25c-.742-1.992-2.379-3.25-4.313-3.25C5.099 3.75 3 5.765 3 8.25c0 7.22 8.75 12 9 12c.25 0 9-4.78 9-12z" />
+                </svg>
+            </label>
+        </div>
+
+        <div class="p-4">
+            
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex gap-2 items-center">
+                    <img src="./imgs/icons8-windows-50.png" alt="Windows Logo" class="h-6 w-6 ">
+                    <img src="./imgs/icons8-xbox-50.png" alt="Xbox Logo" class="h-6 w-6 ">
+                    <img src="./imgs/icons8-playstation-50.png" alt="PlayStation Logo" class="h-6 w-6 ">
+                    </div>
+                
+                <div class="bg-orange-900 text-yellow-500 border border-amber-300 text-sm font-bold px-3 py-1 rounded-md">
+                    ${game.rating}
+                </div>
+            </div>
+            
+            <h2 class="text-white text-2xl font-serif  mb-1">
+                ${game.name}
+            </h2>
+            <p class="text-gray-400 font-sans">
+                Lorem ipsum
+            </p>
+        </div>
+    </div>
+</div>`;
+
+        cardsCountainer.appendChild(card)
+    });
+}
 
 fetchGames();
