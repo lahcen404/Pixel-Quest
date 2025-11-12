@@ -5,6 +5,14 @@ const closeBtns = document.querySelectorAll(".closeBtn");
 const serachInput = document.querySelector(".searchInput");
 
 
+const windowsBtn =document.querySelector(".windowsBtn")
+const xboxBtn =document.querySelector(".xboxBtn")
+const psBtn =document.querySelector(".psBtn")
+const nintendoBtn =document.querySelector(".nintendoBtn")
+const genreBtn =document.querySelector("#genreDropdown a")
+const dateBtn =document.querySelector("#dateDropdown a")
+
+
 
 const modalTitle = document.querySelector(".modalTitle");
 const modalPublisher = document.querySelector(".publisher");
@@ -170,6 +178,7 @@ modal.addEventListener("click", e => {
     let inputValue ;
 
 serachInput.addEventListener("input",(e)=>{
+
    inputValue=  e.target.value.toLowerCase();
    console.log("you typiiiing : " ,inputValue)
 
@@ -188,6 +197,40 @@ serachInput.addEventListener("input",(e)=>{
 displayCards()
    }
 
+})
+
+// filters 
+
+windowsBtn.addEventListener("click",()=>{
+    
+  const winsGames = allGames.filter(g => g.parent_platforms.some(ga => ga.platform.name == "PC"))
+    games = [...winsGames]
+    displayCards()
+console.log(winsGames)
+})
+
+xboxBtn.addEventListener("click",()=>{
+    
+  const xboxGames = allGames.filter(g => g.parent_platforms.some(ga => ga.platform.name == "Xbox"))
+    games=[...xboxGames]
+    displayCards()
+console.log(xboxGames)
+})
+
+psBtn.addEventListener("click",()=>{
+    
+  const psGames = allGames.filter(g => g.parent_platforms.some(ga => ga.platform.name == "PlayStation"))
+    games=[...psGames]
+    displayCards()
+console.log(psGames)
+})
+
+nintendoBtn.addEventListener("click",()=>{
+    
+  const nintendoGames = allGames.filter(g => g.parent_platforms.some(ga => ga.platform.name == "Nintendo"))
+    games=[...nintendoGames]
+    displayCards()
+console.log(nintendoGames)
 })
 
 
