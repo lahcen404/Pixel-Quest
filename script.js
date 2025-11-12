@@ -2,6 +2,7 @@ const cardsCountainer = document.querySelector(".cards");
 // const cards =    document.querySelectorAll(".card");
 const modal = document.querySelector(".modal");
 const closeBtns = document.querySelectorAll(".closeBtn");
+const serachInput = document.querySelector(".searchInput");
 
 
 
@@ -15,6 +16,8 @@ const modalRating = document.querySelector(".modalRating");
 
 
 const gameURL = "https://debuggers-games-api.duckdns.org/api/games";
+
+let allGames = [];
 let games = [];
 
 let platformsData = {
@@ -50,7 +53,8 @@ async function fetchGames() {
   try {
     const response = await fetch(gameURL);
     let data = await response.json();
-    games = data.results;
+    allGames = data.results;
+    games= [...allGames]
     console.log(games);
     displayCards();
 
@@ -63,6 +67,7 @@ async function fetchGames() {
 // fetchGames();
 
 function displayCards() {
+    cardsCountainer.innerHTML = "";
   games.forEach(game => {
     const card = document.createElement("div");
 
@@ -157,6 +162,37 @@ closeBtns.forEach(btn => btn.addEventListener("click", () => modal.classList.add
 modal.addEventListener("click", e => {
   if (e.target === modal) modal.classList.add("hidden");
 });
+
+
+// seaaarch 
+
+
+    let inputValue ;
+
+serachInput.addEventListener("input",(e)=>{
+   inputValue=  e.target.value.toLowerCase();
+   console.log("you typiiiing : " ,inputValue)
+
+   const filtred = allGames.filter(g=>{
+    return g.name.toLowerCase().includes(inputValue)
+   })
+   
+   if(inputValue === ""){
+    games = [...allGames];
+    displayCards()
+   }else if(filtred.length === 0){
+        cardsCountainer.innerHTML=`<h2 class="text-center text-3xl text-white font-semibold mt-10">
+ Nothing here ... </h2>`
+   }else{
+    games=filtred
+displayCards()
+   }
+
+})
+
+
+
+
 
 
 fetchGames();
