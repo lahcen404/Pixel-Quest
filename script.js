@@ -1,4 +1,18 @@
 const cardsCountainer = document.querySelector(".cards");
+// const cards =    document.querySelectorAll(".card");
+const modal = document.querySelector(".modal");
+const closeBtns = document.querySelectorAll(".closeBtn");
+
+
+
+const modalTitle = document.querySelector(".modalTitle");
+const modalPublisher = document.querySelector(".publisher");
+const modalImg = document.querySelector(".modalImg");
+const modalReleased = document.querySelector(".modalReleased");
+const modalGenres = document.querySelector(".modalGenres");
+const modalDescription = document.querySelector(".modalDescription");
+const modalRating = document.querySelector(".modalRating");
+
 
 const gameURL = "https://debuggers-games-api.duckdns.org/api/games";
 let games = [];
@@ -39,6 +53,8 @@ async function fetchGames() {
     games = data.results;
     console.log(games);
     displayCards();
+
+    
   } catch (err) {
     console.error(err);
   }
@@ -47,10 +63,10 @@ async function fetchGames() {
 // fetchGames();
 
 function displayCards() {
-  games.forEach((game) => {
+  games.forEach(game => {
     const card = document.createElement("div");
 
-    card.innerHTML = `<div class="card flex items-center justify-center p-4">
+    card.innerHTML = `<div class="card flex items-center justify-center p-4" data-id ="${game.id}">
   <div class="w-95 h-96 bg-gray-800 border-2 border-blue-600 rounded-xl overflow-hidden shadow-2xl flex flex-col">
     
 
@@ -67,14 +83,14 @@ function displayCards() {
     <div class="p-4 flex-1 flex flex-col justify-between">
       
       <div class="flex justify-between items-center mb-4">
-        <div class="flex gap-2 items-center">
+        <div class="flex gap-2 items-center md:gap-1">
           ${game.parent_platforms
             .map((p) => {
               const platform = platformsData.platforms.find(
                 (pl) => pl.name === p.platform.name
               );
               return platform
-                ? `<img src="${platform.img}" alt="logo" class="h-6 w-6">`
+                ? `<img src="${platform.img}" alt="logo" class="h-6 w-6 md:h-4 w-2">`
                 : "";
             })
             .join("")} 
@@ -104,8 +120,44 @@ function displayCards() {
 `;
 
     cardsCountainer.appendChild(card);
+
+   const cardDiv = card.querySelector(".card"); 
+cardDiv.addEventListener("click", () => {
+  const id = cardDiv.getAttribute("data-id");
+  console.log("test")
+    console.log(id)
+  displayModal(id);
+});
+
+
+
   });
+   
 }
+
+function displayModal(id){
+    const selectedGame = games.find((game)=> id == game.id);
+
+    // if(!selectedGame) return;
+
+    modalTitle.innerText = selectedGame.name;
+    modalPublisher.innerText = selectedGame.name_original;
+    modalImg.src = selectedGame.background_image;
+    modalReleased.innerText = selectedGame.released;
+    modalGenres.innerText = selectedGame.genres.map((game)=>game.name).join(", ");
+    modalDescription.innerText = selectedGame.description;
+    modalRating.innerText = selectedGame.rating || 0;
+
+
+modal.classList.remove("hidden");
+}
+
+closeBtns.forEach(btn => btn.addEventListener("click", () => modal.classList.add("hidden")));
+
+modal.addEventListener("click", e => {
+  if (e.target === modal) modal.classList.add("hidden");
+});
+
 
 fetchGames();
 
