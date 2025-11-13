@@ -86,7 +86,7 @@ function displayCards() {
     <div class="relative h-48 w-full">
       <img src="${game.background_image}" alt="" class="w-full h-full object-cover">
       
-      <label for="favorit" class="absolute top-3 left-3 cursor-pointer p-2 bg-black bg-opacity-50 rounded-full transition duration-300 hover:bg-opacity-70">
+      <label for="favorit" class="favBtn absolute top-3 left-3 cursor-pointer p-2 bg-black bg-opacity-50 rounded-full transition duration-300 hover:bg-opacity-70">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5c-1.933 0-3.57 1.258-4.312 3.25c-.742-1.992-2.379-3.25-4.313-3.25C5.099 3.75 3 5.765 3 8.25c0 7.22 8.75 12 9 12c.25 0 9-4.78 9-12z" />
         </svg>
