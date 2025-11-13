@@ -13,10 +13,6 @@ const genreBtn =document.querySelector("#genreDropdown a")
 const dateBtn =document.querySelector("#dateDropdown a")
 
 
-
-
-
-
 const modalTitle = document.querySelector(".modalTitle");
 const modalPublisher = document.querySelector(".publisher");
 const modalImg = document.querySelector(".modalImg");
@@ -27,6 +23,18 @@ const modalRating = document.querySelector(".modalRating");
 
 
 const gameURL = "https://debuggers-games-api.duckdns.org/api/games";
+
+function getFavorites(){
+return JSON.parse(localStorage.getItem("favorites")) || [];
+
+}
+
+function saveFavorites(favorites){
+    localStorage.setItem("favorites" , JSON.stringify(favorites));
+}
+
+
+
 
 let allGames = [];
 let games = [];
@@ -137,19 +145,32 @@ function displayCards() {
 
     cardsCountainer.appendChild(card);
 
+    // favoritees
+
     const favBtn = card.querySelector(".favBtn");
 const loveIcon = card.querySelector(".loveIcon");
+
+let favorites = getFavorites()
+if(favorites.includes(game.id)){
+    loveIcon.style.color="red"
+}
 
 favBtn.addEventListener("click", (e) => {
   e.stopPropagation(); 
 
+  let id = game.id
+let favorites = getFavorites()
   
-  if (loveIcon.style.color === "red") {
+   if (favorites.includes(id)) {
+    favorites = favorites.filter(favId => favId !== id);
     loveIcon.style.color = "white";
   } else {
+    favorites.push(id);
     loveIcon.style.color = "red";
   }
 
+  
+  saveFavorites(favorites)
   console.log("clickeed lovev");
 });
 
