@@ -1,4 +1,5 @@
 const cardsCountainer = document.querySelector(".cards");
+const cardsFavsContainer = document.querySelector(".cardsFavs")
 // const cards =    document.querySelectorAll(".card");
 const modal = document.querySelector(".modal");
 const closeBtns = document.querySelectorAll(".closeBtn");
@@ -75,8 +76,8 @@ async function fetchGames() {
     allGames = data.results;
     games= [...allGames]
     console.log(games);
-    displayCards();
-
+    // displayCards();
+    
     
   } catch (err) {
     console.error(err);
@@ -86,6 +87,7 @@ async function fetchGames() {
 // fetchGames();
 
 function displayCards() {
+
     cardsCountainer.innerHTML = "";
   games.forEach(game => {
     const card = document.createElement("div");
@@ -180,6 +182,7 @@ cardDiv.addEventListener("click", () => {
   console.log("test")
     console.log(id)
   displayModal(id);
+
 });
 
 
@@ -187,6 +190,19 @@ cardDiv.addEventListener("click", () => {
   });
    
 }
+
+
+
+function displayFavoriteCards(){
+    const favorites = getFavorites()
+    const favGames = allGames.filter((fg)=> favorites.includes(fg.id))
+    games = [...favGames]
+    console.log(games);
+    
+    displayCards()
+}
+
+
 
 function displayModal(id){
     const selectedGame = games.find((game)=> id == game.id);
@@ -207,14 +223,15 @@ modal.classList.remove("hidden");
 
 closeBtns.forEach(btn => btn.addEventListener("click", () => modal.classList.add("hidden")));
 
-modal.addEventListener("click", e => {
-  if (e.target === modal) modal.classList.add("hidden");
-});
-
+if (modal) {
+  modal.addEventListener("click", e => {
+    if (e.target === modal) modal.classList.add("hidden");
+  });
+}
 
 // seaaarch 
 
-
+if (serachInput) {
     let inputValue ;
 
 serachInput.addEventListener("input",(e)=>{
@@ -238,7 +255,7 @@ displayCards()
    }
 
 })
-
+}
 // filters 
 
 windowsBtn.addEventListener("click",()=>{
@@ -273,7 +290,17 @@ nintendoBtn.addEventListener("click",()=>{
 console.log(nintendoGames)
 })
 
-fetchGames();
+const isFavoritesPage = window.location.pathname.includes("favorite.html");
+
+console.log(isFavoritesPage)
+
+fetchGames().then(() => {
+  if (isFavoritesPage) {
+    displayFavoriteCards();
+  } else {
+    displayCards();
+  }
+});
 
 
 
