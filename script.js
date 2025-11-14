@@ -5,6 +5,8 @@ const modal = document.querySelector(".modal");
 const closeBtns = document.querySelectorAll(".closeBtn");
 const serachInput = document.querySelector(".searchInput");
 
+const nextBtn = document.querySelector(".nextBtn")
+const prevBtn = document.querySelector(".prevBtn")
 
 const windowsBtn =document.querySelector(".windowsBtn")
 const xboxBtn =document.querySelector(".xboxBtn")
@@ -12,7 +14,6 @@ const psBtn =document.querySelector(".psBtn")
 const nintendoBtn =document.querySelector(".nintendoBtn")
 const genreBtn =document.querySelector("#genreDropdown a")
 const dateBtn =document.querySelector("#dateDropdown a")
-
 
 const modalTitle = document.querySelector(".modalTitle");
 const modalPublisher = document.querySelector(".publisher");
@@ -22,12 +23,10 @@ const modalGenres = document.querySelector(".modalGenres");
 const modalDescription = document.querySelector(".modalDescription");
 const modalRating = document.querySelector(".modalRating");
 
-
 const gameURL = "https://debuggers-games-api.duckdns.org/api/games";
 
 function getFavorites(){
 return JSON.parse(localStorage.getItem("favorites")) || [];
-
 }
 
 function saveFavorites(favorites){
@@ -35,11 +34,14 @@ function saveFavorites(favorites){
 }
 
 
-
-
 let allGames = [];
 let games = [];
 
+let nextPageUrl = null;
+let prevPageUrl = null;
+
+
+// array of platform with imgs 
 let platformsData = {
   platforms: [
     {
@@ -69,25 +71,29 @@ let platformsData = {
   ],
 };
 
-async function fetchGames() {
+// fetching games 
+
+async function fetchGames(page = 1) {
   try {
-    const response = await fetch(gameURL);
+    const response = await fetch(`https://debuggers-games-api.duckdns.org/api/games?page=${page}`);
     let data = await response.json();
     allGames = data.results;
-    games= [...allGames]
+    games = [...allGames];
     console.log(games);
-    // displayCards();
-    
-    
+
+    nextPageUrl = data.next;
+    console.log(nextPageUrl);
+
+    prevPageUrl = data.previous;
+    console.log(prevPageUrl);
   } catch (err) {
     console.error(err);
   }
 }
 
-// fetchGames();
+// display cards 
 
 function displayCards() {
-
     cardsCountainer.innerHTML = "";
   games.forEach(game => {
     const card = document.createElement("div");
@@ -147,8 +153,6 @@ function displayCards() {
 
     cardsCountainer.appendChild(card);
 
-    // favoritees
-
     const favBtn = card.querySelector(".favBtn");
 const loveIcon = card.querySelector(".loveIcon");
 
@@ -157,8 +161,11 @@ if(favorites.includes(game.id)){
     loveIcon.style.color="red"
 }
 
+// favorite btn
+
 favBtn.addEventListener("click", (e) => {
   e.stopPropagation(); 
+  
 
   let id = game.id
 let favorites = getFavorites()
@@ -166,6 +173,12 @@ let favorites = getFavorites()
    if (favorites.includes(id)) {
     favorites = favorites.filter(favId => favId !== id);
     loveIcon.style.color = "white";
+
+    if (isFavoritesPage) {
+      saveFavorites(favorites);
+      window.location.reload(); 
+    }
+
   } else {
     favorites.push(id);
     loveIcon.style.color = "red";
@@ -173,41 +186,32 @@ let favorites = getFavorites()
 
   
   saveFavorites(favorites)
-  console.log("clickeed lovev");
 });
 
    const cardDiv = card.querySelector(".card"); 
 cardDiv.addEventListener("click", () => {
   const id = cardDiv.getAttribute("data-id");
-  console.log("test")
-    console.log(id)
   displayModal(id);
 
 });
 
-
-
   });
-   
 }
 
-
+// display favorite cards
 
 function displayFavoriteCards(){
     const favorites = getFavorites()
     const favGames = allGames.filter((fg)=> favorites.includes(fg.id))
     games = [...favGames]
     console.log(games);
-    
     displayCards()
 }
 
-
+//display modal 
 
 function displayModal(id){
     const selectedGame = games.find((game)=> id == game.id);
-
-    // if(!selectedGame) return;
 
     modalTitle.innerText = selectedGame.name;
     modalPublisher.innerText = selectedGame.name_original;
@@ -217,10 +221,10 @@ function displayModal(id){
     modalDescription.innerText = selectedGame.description;
     modalRating.innerText = selectedGame.rating || 0;
 
-
 modal.classList.remove("hidden");
 }
 
+//close btn 
 closeBtns.forEach(btn => btn.addEventListener("click", () => modal.classList.add("hidden")));
 
 if (modal) {
@@ -229,15 +233,12 @@ if (modal) {
   });
 }
 
-// seaaarch 
-
 if (serachInput) {
     let inputValue ;
 
 serachInput.addEventListener("input",(e)=>{
 
    inputValue=  e.target.value.toLowerCase();
-   console.log("you typiiiing : " ,inputValue)
 
    const filtred = allGames.filter(g=>{
     return g.name.toLowerCase().includes(inputValue)
@@ -256,45 +257,47 @@ displayCards()
 
 })
 }
-// filters 
 
+//windows btn
 windowsBtn.addEventListener("click",()=>{
     
   const winsGames = allGames.filter(g => g.parent_platforms.some(ga => ga.platform.name == "PC"))
     games = [...winsGames]
     displayCards()
-console.log(winsGames)
 })
+
+//xbox btn
 
 xboxBtn.addEventListener("click",()=>{
     
   const xboxGames = allGames.filter(g => g.parent_platforms.some(ga => ga.platform.name == "Xbox"))
     games=[...xboxGames]
+        console.log(games);
     displayCards()
-console.log(xboxGames)
 })
 
+// playstation btn
 psBtn.addEventListener("click",()=>{
     
   const psGames = allGames.filter(g => g.parent_platforms.some(ga => ga.platform.name == "PlayStation"))
     games=[...psGames]
+    console.log(games);
     displayCards()
-console.log(psGames)
 })
 
+// nintendo btn
 nintendoBtn.addEventListener("click",()=>{
     
   const nintendoGames = allGames.filter(g => g.parent_platforms.some(ga => ga.platform.name == "Nintendo"))
     games=[...nintendoGames]
+        console.log(games);
     displayCards()
-console.log(nintendoGames)
 })
 
+// checkiing if the fav page
 const isFavoritesPage = window.location.pathname.includes("favorite.html");
 
-console.log(isFavoritesPage)
-
-fetchGames().then(() => {
+fetchGames(1).then(() => {
   if (isFavoritesPage) {
     displayFavoriteCards();
   } else {
@@ -302,12 +305,22 @@ fetchGames().then(() => {
   }
 });
 
+// next btn
+nextBtn.addEventListener("click", () => {
+  if (nextPageUrl) {
+    const link = nextPageUrl;
+    const parts = link.split("page=");
+    const p = parts[1];
+    fetchGames(p).then(() => displayCards());
+  }
+});
 
-
-
-
-
-
-
-
-
+// previous btn
+prevBtn.addEventListener("click", () => {
+  if (prevPageUrl) {
+    const link = prevPageUrl;
+    const parts = link.split("page=");
+    const p = parts[1];
+    fetchGames(p).then(() => displayCards());
+  }
+});
