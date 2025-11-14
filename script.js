@@ -147,7 +147,7 @@ function renderGenres(genres) {
       games = [...filtered];
       displayCards();
 
-      console.log("Filtered Genre:", genre.slug, filtered);
+      console.log("fillltered geenre:", genre.slug, filtered);
     });
   });
 }
