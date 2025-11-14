@@ -258,40 +258,46 @@ displayCards()
 })
 }
 
+
+// filters 
+
 //windows btn
 windowsBtn.addEventListener("click",()=>{
-    
-  const winsGames = allGames.filter(g => g.parent_platforms.some(ga => ga.platform.name == "PC"))
+    const arr = isFavoritesPage ? games : allGames;
+  const winsGames = arr.filter(g => g.parent_platforms.some(ga => ga.platform.name == "PC"))
     games = [...winsGames]
     displayCards()
+console.log(winsGames)
 })
 
-//xbox btn
-
+// xbox btn
 xboxBtn.addEventListener("click",()=>{
-    
-  const xboxGames = allGames.filter(g => g.parent_platforms.some(ga => ga.platform.name == "Xbox"))
+    const arr = isFavoritesPage ? games : allGames;
+  const xboxGames = arr.filter(g => g.parent_platforms.some(ga => ga.platform.name == "Xbox"))
     games=[...xboxGames]
-        console.log(games);
     displayCards()
+console.log(xboxGames)
 })
 
-// playstation btn
+
+//play station btn
 psBtn.addEventListener("click",()=>{
     
-  const psGames = allGames.filter(g => g.parent_platforms.some(ga => ga.platform.name == "PlayStation"))
+ const arr = isFavoritesPage ? games : allGames;
+  const psGames = arr.filter(g => g.parent_platforms.some(ga => ga.platform.name == "PlayStation"))
     games=[...psGames]
-    console.log(games);
     displayCards()
+console.log(psGames)
 })
 
-// nintendo btn
+//nintendo btn
 nintendoBtn.addEventListener("click",()=>{
     
-  const nintendoGames = allGames.filter(g => g.parent_platforms.some(ga => ga.platform.name == "Nintendo"))
+  const arr = isFavoritesPage ? games : allGames;
+  const nintendoGames = arr.filter(g => g.parent_platforms.some(ga => ga.platform.name == "Nintendo"))
     games=[...nintendoGames]
-        console.log(games);
     displayCards()
+console.log(nintendoGames)
 })
 
 // checkiing if the fav page
