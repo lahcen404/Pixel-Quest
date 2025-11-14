@@ -23,6 +23,18 @@ const modalGenres = document.querySelector(".modalGenres");
 const modalDescription = document.querySelector(".modalDescription");
 const modalRating = document.querySelector(".modalRating");
 
+
+const loader = document.querySelector(".loader");
+
+
+function showLoader(){
+  loader.classList.remove("hidden");
+}
+
+function hideLoader(){
+  loader.classList.add("hidden");
+}
+
 // const gameURL = "https://debuggers-games-api.duckdns.org/api/games";
 
 function getFavorites(){
@@ -74,6 +86,7 @@ let platformsData = {
 // fetching games 
 
 async function fetchGames(page = 1) {
+  showLoader()
   try {
     const response = await fetch(`https://debuggers-games-api.duckdns.org/api/games?page=${page}`);
     let data = await response.json();
@@ -89,6 +102,8 @@ async function fetchGames(page = 1) {
   } catch (err) {
     console.error(err);
   }
+
+  hideLoader()
 }
 
 // genre 
