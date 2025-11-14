@@ -12,7 +12,7 @@ const windowsBtn =document.querySelector(".windowsBtn")
 const xboxBtn =document.querySelector(".xboxBtn")
 const psBtn =document.querySelector(".psBtn")
 const nintendoBtn =document.querySelector(".nintendoBtn")
-const genreBtn =document.querySelector("#genreDropdown a")
+const genreBtn =document.querySelector("#genreDropdown ul")
 const dateBtn =document.querySelector("#dateDropdown a")
 
 const modalTitle = document.querySelector(".modalTitle");
@@ -23,7 +23,7 @@ const modalGenres = document.querySelector(".modalGenres");
 const modalDescription = document.querySelector(".modalDescription");
 const modalRating = document.querySelector(".modalRating");
 
-const gameURL = "https://debuggers-games-api.duckdns.org/api/games";
+// const gameURL = "https://debuggers-games-api.duckdns.org/api/games";
 
 function getFavorites(){
 return JSON.parse(localStorage.getItem("favorites")) || [];
@@ -85,11 +85,46 @@ async function fetchGames(page = 1) {
     console.log(nextPageUrl);
 
     prevPageUrl = data.previous;
-    console.log(prevPageUrl);
+    //console.log(prevPageUrl);
   } catch (err) {
     console.error(err);
   }
 }
+
+// genre 
+
+async function fetchGenres(){
+   try{
+ const response = await fetch(`https://debuggers-games-api.duckdns.org/api/genres`)
+ let data = await response.json();
+ console.log("genres :" ,data);
+
+renderGenres(data.genres);
+ 
+   }catch(err){
+    console.error(err)
+   }
+}
+
+
+
+function renderGenres(genres) {
+  
+
+  genres.forEach(genre => {
+    const li = document.createElement("li");
+
+    const a = document.createElement("a");
+    a.href = "#";
+    a.textContent = genre.slug;      
+    a.className = "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white";
+
+    li.appendChild(a);
+    genreBtn.appendChild(li);
+  });
+}
+
+fetchGenres()
 
 // display cards 
 
@@ -198,6 +233,8 @@ cardDiv.addEventListener("click", () => {
   });
 }
 
+
+
 // display favorite cards
 
 function displayFavoriteCards(){
@@ -258,40 +295,46 @@ displayCards()
 })
 }
 
+
+// filters 
+
 //windows btn
 windowsBtn.addEventListener("click",()=>{
-    
-  const winsGames = allGames.filter(g => g.parent_platforms.some(ga => ga.platform.name == "PC"))
+    const arr = isFavoritesPage ? games : allGames;
+  const winsGames = arr.filter(g => g.parent_platforms.some(ga => ga.platform.name == "PC"))
     games = [...winsGames]
     displayCards()
+console.log(winsGames)
 })
 
-//xbox btn
-
+// xbox btn
 xboxBtn.addEventListener("click",()=>{
-    
-  const xboxGames = allGames.filter(g => g.parent_platforms.some(ga => ga.platform.name == "Xbox"))
+    const arr = isFavoritesPage ? games : allGames;
+  const xboxGames = arr.filter(g => g.parent_platforms.some(ga => ga.platform.name == "Xbox"))
     games=[...xboxGames]
-        console.log(games);
     displayCards()
+console.log(xboxGames)
 })
 
-// playstation btn
+
+//play station btn
 psBtn.addEventListener("click",()=>{
     
-  const psGames = allGames.filter(g => g.parent_platforms.some(ga => ga.platform.name == "PlayStation"))
+ const arr = isFavoritesPage ? games : allGames;
+  const psGames = arr.filter(g => g.parent_platforms.some(ga => ga.platform.name == "PlayStation"))
     games=[...psGames]
-    console.log(games);
     displayCards()
+console.log(psGames)
 })
 
-// nintendo btn
+//nintendo btn
 nintendoBtn.addEventListener("click",()=>{
     
-  const nintendoGames = allGames.filter(g => g.parent_platforms.some(ga => ga.platform.name == "Nintendo"))
+  const arr = isFavoritesPage ? games : allGames;
+  const nintendoGames = arr.filter(g => g.parent_platforms.some(ga => ga.platform.name == "Nintendo"))
     games=[...nintendoGames]
-        console.log(games);
     displayCards()
+console.log(nintendoGames)
 })
 
 // checkiing if the fav page
@@ -324,3 +367,4 @@ prevBtn.addEventListener("click", () => {
     fetchGames(p).then(() => displayCards());
   }
 });
+
