@@ -12,7 +12,7 @@ const windowsBtn =document.querySelector(".windowsBtn")
 const xboxBtn =document.querySelector(".xboxBtn")
 const psBtn =document.querySelector(".psBtn")
 const nintendoBtn =document.querySelector(".nintendoBtn")
-const genreBtn =document.querySelector("#genreDropdown a")
+const genreBtn =document.querySelector("#genreDropdown ul")
 const dateBtn =document.querySelector("#dateDropdown a")
 
 const modalTitle = document.querySelector(".modalTitle");
@@ -23,7 +23,7 @@ const modalGenres = document.querySelector(".modalGenres");
 const modalDescription = document.querySelector(".modalDescription");
 const modalRating = document.querySelector(".modalRating");
 
-const gameURL = "https://debuggers-games-api.duckdns.org/api/games";
+// const gameURL = "https://debuggers-games-api.duckdns.org/api/games";
 
 function getFavorites(){
 return JSON.parse(localStorage.getItem("favorites")) || [];
@@ -85,11 +85,46 @@ async function fetchGames(page = 1) {
     console.log(nextPageUrl);
 
     prevPageUrl = data.previous;
-    console.log(prevPageUrl);
+    //console.log(prevPageUrl);
   } catch (err) {
     console.error(err);
   }
 }
+
+// genre 
+
+async function fetchGenres(){
+   try{
+ const response = await fetch(`https://debuggers-games-api.duckdns.org/api/genres`)
+ let data = await response.json();
+ console.log("genres :" ,data);
+
+renderGenres(data.genres);
+ 
+   }catch(err){
+    console.error(err)
+   }
+}
+
+
+
+function renderGenres(genres) {
+  
+
+  genres.forEach(genre => {
+    const li = document.createElement("li");
+
+    const a = document.createElement("a");
+    a.href = "#";
+    a.textContent = genre.slug;      
+    a.className = "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white";
+
+    li.appendChild(a);
+    genreBtn.appendChild(li);
+  });
+}
+
+fetchGenres()
 
 // display cards 
 
@@ -197,6 +232,8 @@ cardDiv.addEventListener("click", () => {
 
   });
 }
+
+
 
 // display favorite cards
 
@@ -330,3 +367,4 @@ prevBtn.addEventListener("click", () => {
     fetchGames(p).then(() => displayCards());
   }
 });
+
