@@ -136,6 +136,19 @@ function renderGenres(genres) {
 
     li.appendChild(a);
     genreBtn.appendChild(li);
+
+    a.addEventListener("click", () => {
+      const arr = isFavoritesPage ? games : allGames;
+
+      const filtered = arr.filter(g =>
+        g.genres.some(ge => ge.slug === genre.slug)
+      );
+
+      games = [...filtered];
+      displayCards();
+
+      console.log("fillltered geenre:", genre.slug, filtered);
+    });
   });
 }
 
